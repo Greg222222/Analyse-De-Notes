@@ -2,13 +2,14 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class Main {
-    public static void main(String[] args) {
+
+    public static int getStudentsNumber(Scanner s ) {
 
         // On créé le nombre d'étudiants
 
         int studentsNumber = 1;
-        Scanner s = new Scanner(System.in);
 
         // On demande à l'utilisateur de nous en donner la valeur
 
@@ -29,33 +30,40 @@ public class Main {
                 s.next(); // Consomme l'entrée incorrecte
             }
         }
-
+        return studentsNumber;
+    }
+    public  static int[] notes (Scanner s) {
+        int studentsNumber = getStudentsNumber(s);
         // On va demander à recevoir la note de chacun, et, pour chacun, entrer son nom (Étudiant + i) et sa note
 
         int[] notes = new int[studentsNumber]; // Création du tableau de notes
         System.out.println("Quelle est la note du premier étudiant ?");
 
-          for (int i = 0; i < studentsNumber; i++)
-            {
-                boolean noteValide = false;
+        for (int i = 0; i < studentsNumber; i++)
+        {
+            boolean noteValide = false;
 
-                while (!noteValide) {
-                    System.out.print("Entrez la note de l'étudiant " + (i + 1) + ": ");
-                    try {
-                        notes[i] = s.nextInt();
-                        noteValide = true; // Note valide entrée, on sort de la boucle
-                    } catch (InputMismatchException err) {
-                        System.out.println("Veuillez entrer un nombre valide.");
-                        s.next(); // Consomme l'entrée incorrecte
-                    }
+            while (!noteValide) {
+                System.out.print("Entrez la note de l'étudiant " + (i + 1) + ": ");
+                try {
+                    notes[i] = s.nextInt();
+                    noteValide = true; // Note valide entrée, on sort de la boucle
+                } catch (InputMismatchException err) {
+                    System.out.println("Veuillez entrer un nombre valide.");
+                    s.next(); // Consomme l'entrée incorrecte
                 }
             }
+        }
         // Afficher les notes saisies
         System.out.println("Les notes saisies sont: ");
         for (int i = 0; i < notes.length; i++) {
             System.out.println("Étudiant " + (i + 1) + ": " + notes[i]);
         }
-        int additionNotes  = 0 ;
+        return notes;
+    }
+
+    public static void average (int[] notes) {
+        double additionNotes  = 0 ;
         int max = notes[0];
         int min = notes[0];
         for (int i = 0; i < notes.length; i++) {
@@ -67,6 +75,7 @@ public class Main {
                 min = notes[i];
             }
         }
+
         double moyenne = additionNotes / notes.length;
         System.out.println("La moyenne de la classe est de : " + moyenne);
         System.out.println("La note la plus élevée est de " + max);
@@ -81,12 +90,22 @@ public class Main {
                 System.out.println(notes[i] + " : Est à la moyenne");
             }
         }
+    }
+
+    public static void sortNotes (int[] notes) {
+
         Arrays.sort(notes);
         System.out.println("Tableau trié:");
         for (int entier : notes) {
             System.out.println("nombre: " + entier);
         }
+    }
+    public static void main(String[] args) {
 
+        Scanner s = new Scanner(System.in);
+        int[] notes = notes(s);
+        average(notes);
+        sortNotes(notes);
         s.close();
     }
 
